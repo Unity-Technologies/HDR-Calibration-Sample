@@ -1,0 +1,16 @@
+# For more information about the available options please visit: http://go/backstage (VPN required)
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  annotations:
+    github.com/project-slug: Unity-Technologies/HDR-Calibration-Sample
+  name: HDR-Calibration-Sample
+  description: "This HDR Calibration Sample project shows how an HDR calibration menu with Neutral Tonemapping can be implemented."
+  labels:
+    costcenter: "5083"
+  tags:
+    - planned-public
+spec:
+  type: other
+  lifecycle: production
+  owner: unity-technologies/employees
