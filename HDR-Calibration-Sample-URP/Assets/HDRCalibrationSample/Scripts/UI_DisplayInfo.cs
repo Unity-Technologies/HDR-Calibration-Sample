@@ -53,110 +53,105 @@ namespace HDRCalibrationSample
 
         public void UpdateInfo()
         {
-            HDROutputSettings[] displays = HDROutputSettings.displays;
-            if(displays.Length == 0)
-            {
-                //Do nothing
-            }
-            else
-            {
-                string key = "";
-                string value = "";
 
-                //System header
-                key = "<b>"+"System";
+            string key = "";
+            string value = "";
+
+            //System header
+            key = "<b>"+"System";
+            key += "</b>" + "\n";
+            value += "\n";
+
+            //Platform
+            key += "Platform" + "\n";
+            value += Application.platform.ToString() + "\n";
+
+            //Graphics API
+            key += "Graphics API" + "\n";
+            value += SystemInfo.graphicsDeviceType.ToString() + "\n";
+
+            //System - HDR Support flags
+            key += "HDR Display Support Flags" + "\n";
+            value += SystemInfo.hdrDisplaySupportFlags + "\n";
+
+            //For each display
+            HDROutputSettings[] displays = HDROutputSettings.displays;
+            for(int i=0; i<displays.Length; i++)
+            {
+                //New line
+                key += "\n";
+                value += "\n";
+
+                HDROutputSettings d = displays[i];
+
+                //Display Header
+                key += "<b>"+"Connected Display";
+                if(HDROutputSettings.main == d)
+                {
+                    key += " (main)";
+                }
                 key += "</b>" + "\n";
                 value += "\n";
 
-                //Platform
-                key += "Platform" + "\n";
-                value += Application.platform.ToString() + "\n";
+                //Active
+                key += "HDR Output Active" + "\n";
+                value += d.active? green : red;
+                value += d.active + "</color>" + "\n";           
 
-                //Graphics API
-                key += "Graphics API" + "\n";
-                value += SystemInfo.graphicsDeviceType.ToString() + "\n";
+                //Available
+                key += "HDR Output Available" + "\n";
+                value += d.available? green : red;
+                value += d.available + "</color>" + "\n";
 
-                //System - HDR Support flags
-                key += "HDR Display Support Flags" + "\n";
-                value += SystemInfo.hdrDisplaySupportFlags + "\n";
+                //space
+                key += "\n";
+                value += "\n";  
 
-                for(int i=0; i<displays.Length; i++)
+                if(d.available)
                 {
-                    //New line
-                    key += "\n";
-                    value += "\n";
+                    //Display Color Gamut
+                    key += "Display Color Gamut" + "\n";
+                    value += d.displayColorGamut + "\n";
 
-                    HDROutputSettings d = displays[i];
+                    //PlayerSettings bit depth
+                    #if UNITY_EDITOR
+                    key += "PlayerSettings Bit Depth" + "\n";
+                    value += UnityEditor.PlayerSettings.hdrBitDepth + "\n";
+                    #endif
 
-                    //Display Header
-                    key += "<b>"+"Connected Display";
-                    if(HDROutputSettings.main == d)
-                    {
-                        key += " (main)";
-                    }
-                    key += "</b>" + "\n";
-                    value += "\n";
+                    //Format
+                    key += "Graphics Format" + "\n";
+                    value += d.graphicsFormat + "\n";
 
-                    //Active
-                    key += "HDR Output Active" + "\n";
-                    value += d.active? green : red;
-                    value += d.active + "</color>" + "\n";           
-
-                    //Available
-                    key += "HDR Output Available" + "\n";
-                    value += d.available? green : red;
-                    value += d.available + "</color>" + "\n";
+                    //Automatic HDR Tonemapping
+                    key += "Automatic HDR Tonemapping" + "\n";
+                    value += d.automaticHDRTonemapping + "\n";
 
                     //space
                     key += "\n";
-                    value += "\n";  
+                    value += "\n";
 
-                    if(d.available)
-                    {
-                        //Display Color Gamut
-                        key += "Display Color Gamut" + "\n";
-                        value += d.displayColorGamut + "\n";
+                    //paperWhiteNits
+                    key += "PaperWhiteNits" + "\n";
+                    value += d.paperWhiteNits + "\n";
 
-                        //PlayerSettings bit depth
-                        #if UNITY_EDITOR
-                        key += "PlayerSettings Bit Depth" + "\n";
-                        value += UnityEditor.PlayerSettings.hdrBitDepth + "\n";
-                        #endif
+                    //minToneMapLuminance
+                    key += "MinToneMapLuminance" + "\n";
+                    value += d.minToneMapLuminance + "\n";
 
-                        //Format
-                        key += "Graphics Format" + "\n";
-                        value += d.graphicsFormat + "\n";
+                    //maxToneMapLuminance
+                    key += "MaxToneMapLuminance" + "\n";
+                    value += d.maxToneMapLuminance + "\n";
 
-                        //Automatic HDR Tonemapping
-                        key += "Automatic HDR Tonemapping" + "\n";
-                        value += d.automaticHDRTonemapping + "\n";
-
-                        //space
-                        key += "\n";
-                        value += "\n";
-
-                        //paperWhiteNits
-                        key += "PaperWhiteNits" + "\n";
-                        value += d.paperWhiteNits + "\n";
-
-                        //minToneMapLuminance
-                        key += "MinToneMapLuminance" + "\n";
-                        value += d.minToneMapLuminance + "\n";
-
-                        //maxToneMapLuminance
-                        key += "MaxToneMapLuminance" + "\n";
-                        value += d.maxToneMapLuminance + "\n";
-
-                        //maxFullFrameToneMapLuminance
-                        key += "MaxFullFrameToneMapLuminance" + "\n";
-                        value += d.maxFullFrameToneMapLuminance + "\n";
-                    }
+                    //maxFullFrameToneMapLuminance
+                    key += "MaxFullFrameToneMapLuminance" + "\n";
+                    value += d.maxFullFrameToneMapLuminance + "\n";
                 }
-
-                //Apply to labels
-                label_key.text = key;
-                label_value.text = value;
             }
+
+            //Apply to labels
+            label_key.text = key;
+            label_value.text = value;
 
             //Make sure popup is resized to fit content
             if(group_content == null) group_content = GetComponentInChildren<HorizontalLayoutGroup>();

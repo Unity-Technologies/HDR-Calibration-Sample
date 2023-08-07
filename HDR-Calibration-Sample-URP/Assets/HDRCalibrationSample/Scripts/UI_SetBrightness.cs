@@ -56,6 +56,7 @@ namespace HDRCalibrationSample
 
             if(!UI_HDRHelper.IsHDRActive()) return;
 
+            //Increase the speed of number change when holding the button
             if(isContinuous)
             {
                 if(timer <= 0)
@@ -136,7 +137,7 @@ namespace HDRCalibrationSample
         {
             value = Mathf.Clamp(value, minValue, maxValue);
 
-            if(value == minValue)
+            if(value <= minValue)
             {
                 decreaseButton.interactable = false;
             }
@@ -145,7 +146,7 @@ namespace HDRCalibrationSample
                 decreaseButton.interactable = true;
             }
 
-            if(value == maxValue)
+            if(value >= maxValue)
             {
                 increaseButton.interactable = false;
             }

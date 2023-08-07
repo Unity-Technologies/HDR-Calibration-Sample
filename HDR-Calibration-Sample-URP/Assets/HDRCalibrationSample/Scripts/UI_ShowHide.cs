@@ -37,7 +37,8 @@ namespace HDRCalibrationSample
             sampleImagesNavigation.SetRawImageDefaultRect();
         }
 
-        public void ToggleMenu() //For input control
+        //For input control
+        public void ToggleMenu()
         {
             if(menu.activeSelf)
             {

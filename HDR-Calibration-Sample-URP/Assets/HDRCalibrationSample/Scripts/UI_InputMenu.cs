@@ -19,12 +19,12 @@ namespace HDRCalibrationSample
         public UI_QuitPopup quitPopup;
 
         //Menu items
-        public UI_HDRToggle hdrToggle; //0
-        public UI_SetBrightness brightness_ui_settings; //1
-        public UI_SetBrightness brightness_min_settings; //2
-        public UI_SetBrightness brightness_max_settings; //3
-        public UI_FullScreenCalibration fullScreenCalibration; //4
-        // Reset //5
+        public UI_HDRToggle hdrToggle; // #0
+        public UI_SetBrightness brightness_ui_settings; // #1
+        public UI_SetBrightness brightness_min_settings; // #2
+        public UI_SetBrightness brightness_max_settings; // #3
+        public UI_FullScreenCalibration fullScreenCalibration; // #4
+        // Reset  #5
         private int currentSelection = -1;
         private int selectionCount = 6;
 

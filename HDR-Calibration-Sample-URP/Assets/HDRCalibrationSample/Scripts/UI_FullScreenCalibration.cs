@@ -19,20 +19,22 @@ namespace HDRCalibrationSample
         public GameObject page2;
         public GameObject page3;
 
-        [Header("Settings")]
+        [Header("UI Page Settings")]
         public UI_SetBrightness page1_ui_settings;
         public UI_SetBrightness page2_ui_settings;
         public UI_SetBrightness page3_ui_settings;
 
-        [Header("Menu Settings UI")]
+        [Header("Menu Settings")]
         public UI_SetBrightness menu_ui_settings;
         public UI_SetBrightness menu_min_settings;
         public UI_SetBrightness menu_max_settings;
 
+        [Header("General UI Items")]
         public UI_TonemappingValues tmv;
         public GameObject menuUI;
         public GameObject calibrationUI;
 
+        [Header("Input Control")]
         public InputActionAsset actions;
         private InputActionMap actionMap_FullScreenCalibration;
         private InputAction action_brightnessAdjust;
@@ -146,6 +148,7 @@ namespace HDRCalibrationSample
             menu_min_settings.value = tmvValuesBeforeCalibration_minNits; menu_min_settings.SetValue();
             menu_ui_settings.value = tmvValuesBeforeCalibration_paperWhite; menu_ui_settings.SetValue();
 
+            //Show Menu and hide the Fullscreen Calibration UIs
             menuUI.SetActive(true);
             calibrationUI.SetActive(false);
 
@@ -162,6 +165,7 @@ namespace HDRCalibrationSample
         {
             currentPage = 1;
             
+            //Show Page1
             menuUI.SetActive(false);
             calibrationUI.SetActive(true);
 
@@ -175,8 +179,8 @@ namespace HDRCalibrationSample
 
             //Values for calibration
             tmv.SetPaperWhite(400f);
-            tmv.SetMaxNits(5000f);
-            tmv.SetMinNits(0f);
+            tmv.SetMaxNits(5000f); //max
+            tmv.SetMinNits(0f); //min
 
             //Reset logo brightness value
             page1_ui_settings.Reset();
@@ -186,6 +190,7 @@ namespace HDRCalibrationSample
         {
             currentPage = 2;
 
+            //Show Page2
             page1.SetActive(false);
             page2.SetActive(true);
             page3.SetActive(false);
@@ -196,10 +201,9 @@ namespace HDRCalibrationSample
 
             //Values for calibration
             tmv.SetPaperWhite(400f);
-            tmv.SetMaxNits(page1_ui_settings.value);
-            tmv.SetMinNits(0f);
+            tmv.SetMaxNits(page1_ui_settings.value); //use Page1 result as max nits
+            tmv.SetMinNits(0f); //min
             
-
             //Reset logo brightness value
             page2_ui_settings.Reset();
         }
@@ -208,6 +212,7 @@ namespace HDRCalibrationSample
         {
             currentPage = 3;
 
+            //Show Page3
             page1.SetActive(false);
             page2.SetActive(false);
             page3.SetActive(true);
@@ -217,17 +222,22 @@ namespace HDRCalibrationSample
             page3_ui.SetActive(true);
 
             //Values for calibration
-            tmv.SetPaperWhite(400f);
-            tmv.SetMaxNits(page1_ui_settings.value);
-            tmv.SetMinNits(page2_ui_settings.value);
-            page3_ui_settings.logoMaterial.SetFloat("_Value", 1f);
+            tmv.SetMaxNits(page1_ui_settings.value); //use Page1 result as max nits
+            tmv.SetMinNits(page2_ui_settings.value); //use Page2 result as min nits
+            page3_ui_settings.logoMaterial.SetFloat("_Value", 1f); //reset logo material value
 
             //Reset logo brightness value
-            page3_ui_settings.Reset();
+            page3_ui_settings.Reset(); //Page3 will use paper white value as setting value
         }
 
         public void EndTest()
         {
+            //Apply values after calibration
+            menu_max_settings.value = page1_ui_settings.value; menu_max_settings.SetValue();
+            menu_min_settings.value = page2_ui_settings.value; menu_min_settings.SetValue();
+            menu_ui_settings.value = page3_ui_settings.value; menu_ui_settings.SetValue();
+
+            //Show Menu and hide the Fullscreen Calibration UIs
             page1.SetActive(false);
             page2.SetActive(false);
             page3.SetActive(false);
@@ -235,11 +245,6 @@ namespace HDRCalibrationSample
             page1_ui.SetActive(false);
             page2_ui.SetActive(false);
             page3_ui.SetActive(false);
-
-            //Apply values after calibration
-            menu_max_settings.value = page1_ui_settings.value; menu_max_settings.SetValue();
-            menu_min_settings.value = page2_ui_settings.value; menu_min_settings.SetValue();
-            menu_ui_settings.value = page3_ui_settings.value; menu_ui_settings.SetValue();
 
             menuUI.SetActive(true);
             calibrationUI.SetActive(false);
