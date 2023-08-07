@@ -3,7 +3,7 @@ This HDR Calibration Sample project shows how an HDR calibration menu with **Neu
 
 **Requirement:**
 - Unity 2022.3.5f1 or above
-- Universal Render Pipeline (URP)
+- Universal Render Pipeline (URP) or High Definition Render Pipeline (HDRP)
 
 
 
