@@ -8,45 +8,45 @@ namespace HDRCalibrationSample
 {
     public class UI_TonemappingValues : MonoBehaviour
     {
-        [HideInInspector] public UnityEngine.Rendering.Universal.Tonemapping urp_tonemapping;
-        private bool urp_success = false;
+        [HideInInspector] public UnityEngine.Rendering.Universal.Tonemapping tonemapping;
+        private bool success = false;
 
         void Awake()
         {
-            if(urp_tonemapping == null)
+            if(tonemapping == null)
             {
-                urp_success = GetComponent<Volume>().profile.TryGet<UnityEngine.Rendering.Universal.Tonemapping>(out urp_tonemapping);
+                success = GetComponent<Volume>().profile.TryGet<UnityEngine.Rendering.Universal.Tonemapping>(out tonemapping);
             }
         }
 
         public float GetPaperWhite()
         {
-            return urp_tonemapping.paperWhite.value;
+            return tonemapping.paperWhite.value;
         }
 
         public float GetMaxNits()
         {
-            return urp_tonemapping.maxNits.value;
+            return tonemapping.maxNits.value;
         }
 
         public float GetMinNits()
         {
-            return urp_tonemapping.minNits.value;
+            return tonemapping.minNits.value;
         }
 
         public void SetPaperWhite(float value)
         {
-            urp_tonemapping.paperWhite.value = value;
+            tonemapping.paperWhite.value = value;
         }
 
         public void SetMaxNits(float value)
         {
-            urp_tonemapping.maxNits.value = value;
+            tonemapping.maxNits.value = value;
         }
 
         public void SetMinNits(float value)
         {
-            urp_tonemapping.minNits.value = value;
+            tonemapping.minNits.value = value;
         }
     }
 }
