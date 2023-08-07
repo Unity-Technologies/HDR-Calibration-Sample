@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Readme
   m_EditorClassIdentifier: 
   icon: {fileID: 2800000, guid: 727a75301c3d24613a3ebcec4a24c2c8, type: 3}
-  title: HDR Calibration Sample (URP)
+  title: HDR Calibration Sample
   sections:
-  - heading: Welcome to the HDR Calibration Sample for Universal Render Pipeline (URP)
+  - heading: Welcome to the HDR Calibration Sample
     text: This HDR Calibration Sample project shows how an HDR calibration menu with Neutral Tonemapping can be implemented.
     linkText: 
     url:
