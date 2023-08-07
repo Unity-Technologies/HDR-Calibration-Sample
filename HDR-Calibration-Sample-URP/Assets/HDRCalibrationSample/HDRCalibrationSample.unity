@@ -5765,7 +5765,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62a45b3f0024c1f458246e6497229d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  urp_tonemapping: {fileID: 0}
+  tonemapping: {fileID: 0}
 --- !u!114 &653260040
 MonoBehaviour:
   m_ObjectHideFlags: 0

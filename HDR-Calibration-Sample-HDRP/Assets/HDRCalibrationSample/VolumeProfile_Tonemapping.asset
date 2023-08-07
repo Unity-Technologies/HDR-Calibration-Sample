@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: VolumeProfile_Tonemapping
   m_EditorClassIdentifier: 
   components:
-  - {fileID: 849379129802519247}
   - {fileID: 5538154936416795505}
 --- !u!114 &849379129802519247
 MonoBehaviour:
@@ -117,7 +116,7 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 100
   detectBrightnessLimits:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0
   minNits:
     m_OverrideState: 1
