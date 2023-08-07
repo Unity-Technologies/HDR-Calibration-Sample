@@ -2,20 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI_QuitPopup : MonoBehaviour
+namespace HDRCalibrationSample
 {
-    public void Quit()
+    public class UI_QuitPopup : MonoBehaviour
     {
-        gameObject.SetActive(true);
-    }
+        public void Quit()
+        {
+            gameObject.SetActive(true);
+        }
 
-    public void Cancel()
-    {
-        gameObject.SetActive(false);
-    }
+        public void Cancel()
+        {
+            gameObject.SetActive(false);
+        }
 
-    public void DoQuit()
-    {
-        Application.Quit();
+        public void DoQuit()
+        {
+            Application.Quit();
+        }
     }
 }

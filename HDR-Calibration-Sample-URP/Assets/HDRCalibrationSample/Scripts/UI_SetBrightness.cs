@@ -4,200 +4,203 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UI_SetBrightness : MonoBehaviour
+namespace HDRCalibrationSample
 {
-    public float minValue = 0f;
-    public float maxValue = 1000f;
-    public float defaultValue = 500f;
-    public float increment = 1f;
-    public bool isInteger = false;
-
-    public TextMeshProUGUI label;
-
-    [HideInInspector] public float value = 0f;
-    private bool isContinuous = false;
-    private float direction = 1;
-
-    public Button increaseButton;
-    public Button decreaseButton;
-    public UI_HighlightOnHover highlightOnHover;
-
-    private const float interval = 0.2f;
-    private float timer = 0f;
-    private const float keyHoldTimeAcceleration = 10f;
-    private float keyHoldTime = 0f;
-
-    public UI_TonemappingValues tonemappingValues;
-    public enum TonemappingValueTypes
+    public class UI_SetBrightness : MonoBehaviour
     {
-        PaperWhite,
-        MinNits,
-        MaxNits,
-        Material
-    }
-    public TonemappingValueTypes tonemappingValue = TonemappingValueTypes.PaperWhite;
-    public Material logoMaterial;
-    public bool useDetectedAsDefault = true;
+        public float minValue = 0f;
+        public float maxValue = 1000f;
+        public float defaultValue = 500f;
+        public float increment = 1f;
+        public bool isInteger = false;
 
-    void Start()
-    {
-        Reset();
-        UpdateButtonStatus();
-    }
+        public TextMeshProUGUI label;
 
-    void Update()
-    {
-        if(UI_HDRHelper.isHDRActiveChanged)
+        [HideInInspector] public float value = 0f;
+        private bool isContinuous = false;
+        private float direction = 1;
+
+        public Button increaseButton;
+        public Button decreaseButton;
+        public UI_HighlightOnHover highlightOnHover;
+
+        private const float interval = 0.2f;
+        private float timer = 0f;
+        private const float keyHoldTimeAcceleration = 10f;
+        private float keyHoldTime = 0f;
+
+        public UI_TonemappingValues tonemappingValues;
+        public enum TonemappingValueTypes
         {
+            PaperWhite,
+            MinNits,
+            MaxNits,
+            Material
+        }
+        public TonemappingValueTypes tonemappingValue = TonemappingValueTypes.PaperWhite;
+        public Material logoMaterial;
+        public bool useDetectedAsDefault = true;
+
+        void Start()
+        {
+            Reset();
             UpdateButtonStatus();
         }
 
-        if(!UI_HDRHelper.IsHDRActive()) return;
-
-        if(isContinuous)
+        void Update()
         {
-            if(timer <= 0)
+            if(UI_HDRHelper.isHDRActiveChanged)
             {
-                value += increment * direction * (1f+keyHoldTime*keyHoldTimeAcceleration);
-                SetValue();
-
-                timer = interval;
+                UpdateButtonStatus();
             }
-            timer -= Time.deltaTime;
-            keyHoldTime += Time.deltaTime;
-        }
-    }
 
-    private void UpdateButtonStatus()
-    {
-        if(UI_HDRHelper.IsHDRActive())
+            if(!UI_HDRHelper.IsHDRActive()) return;
+
+            if(isContinuous)
+            {
+                if(timer <= 0)
+                {
+                    value += increment * direction * (1f+keyHoldTime*keyHoldTimeAcceleration);
+                    SetValue();
+
+                    timer = interval;
+                }
+                timer -= Time.deltaTime;
+                keyHoldTime += Time.deltaTime;
+            }
+        }
+
+        private void UpdateButtonStatus()
         {
-            UseDetectedAsDefault();
-            increaseButton.interactable = true;
-            decreaseButton.interactable = true;
-            if(highlightOnHover != null) highlightOnHover.EnableUI();
+            if(UI_HDRHelper.IsHDRActive())
+            {
+                UseDetectedAsDefault();
+                increaseButton.interactable = true;
+                decreaseButton.interactable = true;
+                if(highlightOnHover != null) highlightOnHover.EnableUI();
+            }
+            else //disable buttons if HDR is not active
+            {
+                increaseButton.interactable = false;
+                decreaseButton.interactable = false;
+                if(highlightOnHover != null) highlightOnHover.DisableUI();
+            }
         }
-        else //disable buttons if HDR is not active
-        {
-            increaseButton.interactable = false;
-            decreaseButton.interactable = false;
-            if(highlightOnHover != null) highlightOnHover.DisableUI();
-        }
-    }
 
-    public void PointerUp()
-    {
-        isContinuous = false;
-        timer = interval;
-        keyHoldTime = 0f;
-    }
-
-    public void Reset()
-    {
-        PointerUp();
-        if(useDetectedAsDefault) UseDetectedAsDefault();
-        value = defaultValue;
-        SetValue();
-    }
-
-    public void UIButtonTap(float dir)
-    {
-        InputControl(dir, true);
-    }
-
-    public void UIButtonPointerDown(float dir)
-    {
-        InputControl(dir, false);
-    }
-
-    public void InputControl(float dir, bool isTap)
-    {
-        direction = dir;
-
-        if(isTap)
+        public void PointerUp()
         {
             isContinuous = false;
-            keyHoldTime = 0f;
             timer = interval;
-            value += increment * direction;
+            keyHoldTime = 0f;
+        }
+
+        public void Reset()
+        {
+            PointerUp();
+            if(useDetectedAsDefault) UseDetectedAsDefault();
+            value = defaultValue;
             SetValue();
         }
-        else
-        {
-            isContinuous = true;
-            keyHoldTime = 0f;
-            timer = interval;
-        }
-    }
 
-    public void SetValue()
-    {
-        value = Mathf.Clamp(value, minValue, maxValue);
-
-        if(value == minValue)
+        public void UIButtonTap(float dir)
         {
-            decreaseButton.interactable = false;
-        }
-        else
-        {
-            decreaseButton.interactable = true;
+            InputControl(dir, true);
         }
 
-        if(value == maxValue)
+        public void UIButtonPointerDown(float dir)
         {
-            increaseButton.interactable = false;
-        }
-        else
-        {
-            increaseButton.interactable = true;
+            InputControl(dir, false);
         }
 
-        if (isInteger)
+        public void InputControl(float dir, bool isTap)
         {
-            label.text = value.ToString("F0");
-        }
-        else
-        {
-            label.text = value.ToString("F2");
+            direction = dir;
+
+            if(isTap)
+            {
+                isContinuous = false;
+                keyHoldTime = 0f;
+                timer = interval;
+                value += increment * direction;
+                SetValue();
+            }
+            else
+            {
+                isContinuous = true;
+                keyHoldTime = 0f;
+                timer = interval;
+            }
         }
 
-        switch(tonemappingValue)
+        public void SetValue()
         {
-            case TonemappingValueTypes.PaperWhite:
-                tonemappingValues.SetPaperWhite(value);
-                break;
-            case TonemappingValueTypes.MinNits:
-                tonemappingValues.SetMinNits(value);
-                break;
-            case TonemappingValueTypes.MaxNits:
-                tonemappingValues.SetMaxNits(value);
-                break;
-            case TonemappingValueTypes.Material:
-                logoMaterial.SetFloat("_Value", value/tonemappingValues.GetPaperWhite());
-                break;
-            default:
-                break;
-        }
-    }
+            value = Mathf.Clamp(value, minValue, maxValue);
 
-    public void UseDetectedAsDefault()
-    {
-        var display = UI_HDRHelper.GetCurrentHDRDisplay();
-        if(UI_HDRHelper.IsHDRAvaiable())
-        {
+            if(value == minValue)
+            {
+                decreaseButton.interactable = false;
+            }
+            else
+            {
+                decreaseButton.interactable = true;
+            }
+
+            if(value == maxValue)
+            {
+                increaseButton.interactable = false;
+            }
+            else
+            {
+                increaseButton.interactable = true;
+            }
+
+            if (isInteger)
+            {
+                label.text = value.ToString("F0");
+            }
+            else
+            {
+                label.text = value.ToString("F2");
+            }
+
             switch(tonemappingValue)
             {
                 case TonemappingValueTypes.PaperWhite:
-                    if(display.paperWhiteNits > 0f) defaultValue = display.paperWhiteNits;
+                    tonemappingValues.SetPaperWhite(value);
                     break;
                 case TonemappingValueTypes.MinNits:
-                    if(display.minToneMapLuminance > 0f) defaultValue = display.minToneMapLuminance;
+                    tonemappingValues.SetMinNits(value);
                     break;
                 case TonemappingValueTypes.MaxNits:
-                    if(display.maxToneMapLuminance > 0f) defaultValue = display.maxToneMapLuminance;
+                    tonemappingValues.SetMaxNits(value);
+                    break;
+                case TonemappingValueTypes.Material:
+                    logoMaterial.SetFloat("_Value", value/tonemappingValues.GetPaperWhite());
                     break;
                 default:
                     break;
+            }
+        }
+
+        public void UseDetectedAsDefault()
+        {
+            var display = UI_HDRHelper.GetCurrentHDRDisplay();
+            if(UI_HDRHelper.IsHDRAvaiable())
+            {
+                switch(tonemappingValue)
+                {
+                    case TonemappingValueTypes.PaperWhite:
+                        if(display.paperWhiteNits > 0f) defaultValue = display.paperWhiteNits;
+                        break;
+                    case TonemappingValueTypes.MinNits:
+                        if(display.minToneMapLuminance > 0f) defaultValue = display.minToneMapLuminance;
+                        break;
+                    case TonemappingValueTypes.MaxNits:
+                        if(display.maxToneMapLuminance > 0f) defaultValue = display.maxToneMapLuminance;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }

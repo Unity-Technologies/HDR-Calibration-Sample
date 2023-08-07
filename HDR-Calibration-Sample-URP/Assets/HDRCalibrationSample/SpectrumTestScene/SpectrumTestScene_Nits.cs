@@ -4,24 +4,27 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-[ExecuteInEditMode]
-public class SpectrumTestScene_Nits : MonoBehaviour
+namespace HDRCalibrationSample
 {
-    private Tonemapping tonemapping;
-    private bool success = false;
-
-    void Init()
+    [ExecuteInEditMode]
+    public class SpectrumTestScene_Nits : MonoBehaviour
     {
-        if(tonemapping == null || !success)
+        private Tonemapping tonemapping;
+        private bool success = false;
+
+        void Init()
         {
-            success = GetComponent<Volume>().profile.TryGet<Tonemapping>(out tonemapping);
+            if(tonemapping == null || !success)
+            {
+                success = GetComponent<Volume>().profile.TryGet<Tonemapping>(out tonemapping);
+            }
         }
-    }
 
-    void Update()
-    {
-        Init();
+        void Update()
+        {
+            Init();
 
-        Shader.SetGlobalFloat("_PaperWhite", tonemapping.paperWhite.value);
+            Shader.SetGlobalFloat("_PaperWhite", tonemapping.paperWhite.value);
+        }
     }
 }

@@ -5,224 +5,226 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
-public class UI_InputMenu : MonoBehaviour
+namespace HDRCalibrationSample
 {
-    public InputActionAsset actions;
-    public InputActionMap actionMap_MenuPanel;
-
-    public UI_DisplayInfo displayInfo;
-    public UI_ShowHide showHide;
-    public UI_ErrorPopup errorPopup;
-    public UI_SampleImagesNavigation sampleImagesNavigation;
-    public UI_QuitPopup quitPopup;
-
-    //Menu items
-    public UI_HDRToggle hdrToggle; //0
-    public UI_SetBrightness brightness_ui_settings; //1
-    public UI_SetBrightness brightness_min_settings; //2
-    public UI_SetBrightness brightness_max_settings; //3
-    public UI_FullScreenCalibration fullScreenCalibration; //4
-    // Reset //5
-    private int currentSelection = -1;
-    private int selectionCount = 6;
-
-    //Menu items hover
-    public UI_HighlightOnHover[] menuItem_hovers;
-
-    void Init()
+    public class UI_InputMenu : MonoBehaviour
     {
-        actionMap_MenuPanel = actions.FindActionMap("MenuPanel");
-        actionMap_MenuPanel.Enable();
-    }
+        public InputActionAsset actions;
+        public InputActionMap actionMap_MenuPanel;
 
-    void Start()
-    {
-        //Display Info
-        actionMap_MenuPanel.FindAction("DisplayInfo").performed += DisplayInfo;
+        public UI_DisplayInfo displayInfo;
+        public UI_ShowHide showHide;
+        public UI_ErrorPopup errorPopup;
+        public UI_SampleImagesNavigation sampleImagesNavigation;
+        public UI_QuitPopup quitPopup;
 
-        //Show Hide UI
-        actionMap_MenuPanel.FindAction("ShowUI").performed += ShowHideUI;
+        //Menu items
+        public UI_HDRToggle hdrToggle; //0
+        public UI_SetBrightness brightness_ui_settings; //1
+        public UI_SetBrightness brightness_min_settings; //2
+        public UI_SetBrightness brightness_max_settings; //3
+        public UI_FullScreenCalibration fullScreenCalibration; //4
+        // Reset //5
+        private int currentSelection = -1;
+        private int selectionCount = 6;
 
-        //In Editor Warning
-        actionMap_MenuPanel.FindAction("Back").performed += BackButton;
+        //Menu items hover
+        public UI_HighlightOnHover[] menuItem_hovers;
 
-        //Sample Images Navigation
-        actionMap_MenuPanel.FindAction("SampleImages").performed += SampleImagesNavigation;
-
-        //Menu Select
-        actionMap_MenuPanel.FindAction("MenuSelect").performed += MenuSelect;
-
-        //Menu Confirm
-        actionMap_MenuPanel.FindAction("Confirm").performed += MenuConfirm;
-
-        //Brightness Adjust
-        actionMap_MenuPanel.FindAction("BrightnessIncrease").performed += BrightnessIncrease;
-        actionMap_MenuPanel.FindAction("BrightnessIncrease").canceled += StopBrightnessAdjust;
-        actionMap_MenuPanel.FindAction("BrightnessDecrease").performed += BrightnessDecrease;
-        actionMap_MenuPanel.FindAction("BrightnessDecrease").canceled += StopBrightnessAdjust;
-    }
-
-    void OnEnable()
-    {
-        Init();
-    }
-
-    void OnDisable()
-    {
-        actionMap_MenuPanel.Disable();
-    }
-
-    private void DisplayInfo(InputAction.CallbackContext context)
-    {
-        if(!showHide.menu.activeSelf) return;
-        
-        displayInfo.TogglePopup();
-    }
-
-    private void ShowHideUI(InputAction.CallbackContext context)
-    {
-        showHide.ToggleMenu();
-        displayInfo.ClosePopup();
-    }
-
-    private void BackButton(InputAction.CallbackContext context)
-    {
-        if(quitPopup.gameObject.activeSelf)
+        void Init()
         {
-            //Cancel quit
-            quitPopup.Cancel();
+            actionMap_MenuPanel = actions.FindActionMap("MenuPanel");
+            actionMap_MenuPanel.Enable();
         }
-        else if(errorPopup.gameObject.activeSelf)
+
+        void Start()
         {
-            //CloseEditorWarning
-            errorPopup.gameObject.SetActive(false);
+            //Display Info
+            actionMap_MenuPanel.FindAction("DisplayInfo").performed += DisplayInfo;
+
+            //Show Hide UI
+            actionMap_MenuPanel.FindAction("ShowUI").performed += ShowHideUI;
+
+            //In Editor Warning
+            actionMap_MenuPanel.FindAction("Back").performed += BackButton;
+
+            //Sample Images Navigation
+            actionMap_MenuPanel.FindAction("SampleImages").performed += SampleImagesNavigation;
+
+            //Menu Select
+            actionMap_MenuPanel.FindAction("MenuSelect").performed += MenuSelect;
+
+            //Menu Confirm
+            actionMap_MenuPanel.FindAction("Confirm").performed += MenuConfirm;
+
+            //Brightness Adjust
+            actionMap_MenuPanel.FindAction("BrightnessIncrease").performed += BrightnessIncrease;
+            actionMap_MenuPanel.FindAction("BrightnessIncrease").canceled += StopBrightnessAdjust;
+            actionMap_MenuPanel.FindAction("BrightnessDecrease").performed += BrightnessDecrease;
+            actionMap_MenuPanel.FindAction("BrightnessDecrease").canceled += StopBrightnessAdjust;
         }
-        else if(displayInfo.gameObject.activeSelf)
+
+        void OnEnable()
         {
-            //Close DisplayInfo
+            Init();
+        }
+
+        void OnDisable()
+        {
+            actionMap_MenuPanel.Disable();
+        }
+
+        private void DisplayInfo(InputAction.CallbackContext context)
+        {
+            if(!showHide.menu.activeSelf) return;
+            
+            displayInfo.TogglePopup();
+        }
+
+        private void ShowHideUI(InputAction.CallbackContext context)
+        {
+            showHide.ToggleMenu();
             displayInfo.ClosePopup();
         }
-        else
+
+        private void BackButton(InputAction.CallbackContext context)
         {
-            //Quit
-            quitPopup.Quit();
-        }
-    }
-
-    private void SampleImagesNavigation(InputAction.CallbackContext context)
-    {
-        float direction = context.ReadValue<float>();
-        sampleImagesNavigation.NextOrPrevImage(direction);
-    }
-
-    public void MenuSelect(InputAction.CallbackContext context)
-    {
-        if(!showHide.menu.activeSelf) return;
-
-        float direction = context.ReadValue<float>();
-        currentSelection += 1 * (int)Mathf.Sign(direction);
-
-        //When menu items are disabled because of HDR state, skip them
-        selectionCount = 0;
-        for(int i = 0; i < menuItem_hovers.Length; i++)
-        {
-            if(menuItem_hovers[i].isEnabled)
+            if(quitPopup.gameObject.activeSelf)
             {
-                selectionCount++;
+                //Cancel quit
+                quitPopup.Cancel();
             }
-        }
-        if(selectionCount == 0) selectionCount = -1;
-
-        //Loop the menu items
-        if(currentSelection >= selectionCount)
-        {
-            currentSelection = 0;
-        }
-        else if(currentSelection < 0)
-        {
-            currentSelection = selectionCount-1;
-        }
-
-        //Highlight selection
-        for(int i = 0; i < menuItem_hovers.Length; i++)
-        {
-            if(i == currentSelection)
+            else if(errorPopup.gameObject.activeSelf)
             {
-                menuItem_hovers[i].EnterUI();
+                //CloseEditorWarning
+                errorPopup.gameObject.SetActive(false);
+            }
+            else if(displayInfo.gameObject.activeSelf)
+            {
+                //Close DisplayInfo
+                displayInfo.ClosePopup();
             }
             else
             {
-                menuItem_hovers[i].LeaveUI();
+                //Quit
+                quitPopup.Quit();
             }
         }
-    }
 
-    public void MenuConfirm(InputAction.CallbackContext context)
-    {
-        if(quitPopup.gameObject.activeSelf)
+        private void SampleImagesNavigation(InputAction.CallbackContext context)
         {
-            quitPopup.DoQuit();
-            return;
+            float direction = context.ReadValue<float>();
+            sampleImagesNavigation.NextOrPrevImage(direction);
         }
 
-        if(!showHide.menu.activeSelf) return;
-
-        switch(currentSelection)
+        public void MenuSelect(InputAction.CallbackContext context)
         {
-            case 0: //HDR Toggle
-                if(hdrToggle.toggle.interactable)
+            if(!showHide.menu.activeSelf) return;
+
+            float direction = context.ReadValue<float>();
+            currentSelection += 1 * (int)Mathf.Sign(direction);
+
+            //When menu items are disabled because of HDR state, skip them
+            selectionCount = 0;
+            for(int i = 0; i < menuItem_hovers.Length; i++)
+            {
+                if(menuItem_hovers[i].isEnabled)
                 {
-                    hdrToggle.ToggleHDR();
+                    selectionCount++;
                 }
-                break;
-            case 4: //Full Screen Calibration
-                fullScreenCalibration.Page1();
-                break;
-            case 5: //Reset
-                brightness_ui_settings.Reset();
-                brightness_min_settings.Reset();
-                brightness_max_settings.Reset();
-                break;
-            default:
-                break;
+            }
+            if(selectionCount == 0) selectionCount = -1;
+
+            //Loop the menu items
+            if(currentSelection >= selectionCount)
+            {
+                currentSelection = 0;
+            }
+            else if(currentSelection < 0)
+            {
+                currentSelection = selectionCount-1;
+            }
+
+            //Highlight selection
+            for(int i = 0; i < menuItem_hovers.Length; i++)
+            {
+                if(i == currentSelection)
+                {
+                    menuItem_hovers[i].EnterUI();
+                }
+                else
+                {
+                    menuItem_hovers[i].LeaveUI();
+                }
+            }
         }
-    }
 
-    private void BrightnessIncrease(InputAction.CallbackContext context)
-    {
-        if(!showHide.menu.activeSelf) return;
-        bool isTap = context.interaction is TapInteraction;
-        ControlDir(1f, isTap);
-    }
-
-    private void BrightnessDecrease(InputAction.CallbackContext context)
-    {
-        if(!showHide.menu.activeSelf) return;
-        bool isTap = context.interaction is TapInteraction;
-        ControlDir(-1f, isTap);
-    }
-
-    private void ControlDir(float direction, bool isTap)
-    {
-        switch(currentSelection)
+        public void MenuConfirm(InputAction.CallbackContext context)
         {
-            case 1:
-                brightness_ui_settings.InputControl(direction,isTap);
-                break;
-            case 2:
-                brightness_min_settings.InputControl(direction,isTap);
-                break;
-            case 3:
-                brightness_max_settings.InputControl(direction,isTap);
-                break;
+            if(quitPopup.gameObject.activeSelf)
+            {
+                quitPopup.DoQuit();
+                return;
+            }
+
+            if(!showHide.menu.activeSelf) return;
+
+            switch(currentSelection)
+            {
+                case 0: //HDR Toggle
+                    if(hdrToggle.toggle.interactable)
+                    {
+                        hdrToggle.ToggleHDR();
+                    }
+                    break;
+                case 4: //Full Screen Calibration
+                    fullScreenCalibration.Page1();
+                    break;
+                case 5: //Reset
+                    brightness_ui_settings.Reset();
+                    brightness_min_settings.Reset();
+                    brightness_max_settings.Reset();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void BrightnessIncrease(InputAction.CallbackContext context)
+        {
+            if(!showHide.menu.activeSelf) return;
+            bool isTap = context.interaction is TapInteraction;
+            ControlDir(1f, isTap);
+        }
+
+        private void BrightnessDecrease(InputAction.CallbackContext context)
+        {
+            if(!showHide.menu.activeSelf) return;
+            bool isTap = context.interaction is TapInteraction;
+            ControlDir(-1f, isTap);
+        }
+
+        private void ControlDir(float direction, bool isTap)
+        {
+            switch(currentSelection)
+            {
+                case 1:
+                    brightness_ui_settings.InputControl(direction,isTap);
+                    break;
+                case 2:
+                    brightness_min_settings.InputControl(direction,isTap);
+                    break;
+                case 3:
+                    brightness_max_settings.InputControl(direction,isTap);
+                    break;
+            }
+        }
+
+        private void StopBrightnessAdjust(InputAction.CallbackContext context)
+        {
+            brightness_ui_settings.PointerUp();
+            brightness_min_settings.PointerUp();
+            brightness_max_settings.PointerUp();
         }
     }
-
-    private void StopBrightnessAdjust(InputAction.CallbackContext context)
-    {
-        brightness_ui_settings.PointerUp();
-        brightness_min_settings.PointerUp();
-        brightness_max_settings.PointerUp();
-    }
-    
 }

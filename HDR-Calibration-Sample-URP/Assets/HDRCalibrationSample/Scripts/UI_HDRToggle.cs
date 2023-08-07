@@ -3,140 +3,143 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_HDRToggle : MonoBehaviour
+namespace HDRCalibrationSample
 {
-    [HideInInspector] public Toggle toggle;
-    public UI_HighlightOnHover highlightOnHover;
-    public UI_HighlightOnHover[] otherMenuItems;
-
-    void Start()
+    public class UI_HDRToggle : MonoBehaviour
     {
-        toggle = GetComponent<Toggle>();
-        UpdateToggleOnOff();
-    }
+        [HideInInspector] public Toggle toggle;
+        public UI_HighlightOnHover highlightOnHover;
+        public UI_HighlightOnHover[] otherMenuItems;
 
-    void Update()
-    {
-        if(UI_HDRHelper.isHDRAvailableChanged || UI_HDRHelper.isHDRActiveChanged)
+        void Start()
         {
+            toggle = GetComponent<Toggle>();
             UpdateToggleOnOff();
         }
-    }
 
-    private void UpdateToggleOnOff()
-    {
-        //Update checkbox based on status
-        if(UI_HDRHelper.IsHDRActive())
+        void Update()
         {
-            toggle.isOn = true;
-            foreach (UI_HighlightOnHover item in otherMenuItems)
+            if(UI_HDRHelper.isHDRAvailableChanged || UI_HDRHelper.isHDRActiveChanged)
             {
-                item.EnableUI();
-            }
-        }
-        else
-        {
-            toggle.isOn = false;
-            foreach (UI_HighlightOnHover item in otherMenuItems)
-            {
-                item.DisableUI();
+                UpdateToggleOnOff();
             }
         }
 
-        //Grey out toggle depends on Editor or Player settings
-        bool shouldGreyOutToggle = false;
-        
-        #if UNITY_EDITOR
-        // In Editor we need to switch HDR on/off using player settings, so once it's off, 
-        // IsHDRAvaiable() will return false, so we don't want this case to grey out the toggle
-        if( !SystemInfo.hdrDisplaySupportFlags.HasFlag(HDRDisplaySupportFlags.RuntimeSwitchable) )
+        private void UpdateToggleOnOff()
         {
-            shouldGreyOutToggle = true;
-        }
-        else if( !UI_HDRHelper.IsHDRAvaiable() && !UI_HDRHelper.editorHDRJustBeingTurnedOff )
-        {
-            shouldGreyOutToggle = true;
-        }
-        #else
-        // In player we just simply check if HDR is available and switchable
-        if( !UI_HDRHelper.IsHDRAvaiable() || !SystemInfo.hdrDisplaySupportFlags.HasFlag(HDRDisplaySupportFlags.RuntimeSwitchable) )
-        {
-            shouldGreyOutToggle = true;
-        }
-        #endif
-
-        //Do the actual grey out
-        if(shouldGreyOutToggle)
-        {
-            toggle.interactable = false;
-            highlightOnHover.DisableUI();
-        }
-        else
-        {
-            toggle.interactable = true;
-            highlightOnHover.EnableUI();
-        }
-    }
-
-    public void ToggleHDR()
-    {
-        //If HDR is not switchable, do nothing
-        if( !SystemInfo.hdrDisplaySupportFlags.HasFlag(HDRDisplaySupportFlags.RuntimeSwitchable) ) return;
-
-        //Determine if HDR is on or off
-        bool hdrIsOn = UI_HDRHelper.GetCurrentHDRDisplay().active;
-        hdrIsOn = hdrIsOn?false:true;
-        toggle.isOn = hdrIsOn;
-
-        //Turn on/off HDR
-        #if UNITY_EDITOR
-
-        if(UI_HDRHelper.IsHDRAvaiable() || UI_HDRHelper.editorHDRJustBeingTurnedOff)
-        {
-            if(hdrIsOn)
+            //Update checkbox based on status
+            if(UI_HDRHelper.IsHDRActive())
             {
-                TurnOnHDR();
+                toggle.isOn = true;
+                foreach (UI_HighlightOnHover item in otherMenuItems)
+                {
+                    item.EnableUI();
+                }
             }
             else
             {
-                TurnOffHDR();
+                toggle.isOn = false;
+                foreach (UI_HighlightOnHover item in otherMenuItems)
+                {
+                    item.DisableUI();
+                }
             }
-        }
 
-        #else
-
-        if(UI_HDRHelper.IsHDRAvaiable())
-        {
-            if(hdrIsOn)
+            //Grey out toggle depends on Editor or Player settings
+            bool shouldGreyOutToggle = false;
+            
+            #if UNITY_EDITOR
+            // In Editor we need to switch HDR on/off using player settings, so once it's off, 
+            // IsHDRAvaiable() will return false, so we don't want this case to grey out the toggle
+            if( !SystemInfo.hdrDisplaySupportFlags.HasFlag(HDRDisplaySupportFlags.RuntimeSwitchable) )
             {
-                TurnOnHDR();
+                shouldGreyOutToggle = true;
+            }
+            else if( !UI_HDRHelper.IsHDRAvaiable() && !UI_HDRHelper.editorHDRJustBeingTurnedOff )
+            {
+                shouldGreyOutToggle = true;
+            }
+            #else
+            // In player we just simply check if HDR is available and switchable
+            if( !UI_HDRHelper.IsHDRAvaiable() || !SystemInfo.hdrDisplaySupportFlags.HasFlag(HDRDisplaySupportFlags.RuntimeSwitchable) )
+            {
+                shouldGreyOutToggle = true;
+            }
+            #endif
+
+            //Do the actual grey out
+            if(shouldGreyOutToggle)
+            {
+                toggle.interactable = false;
+                highlightOnHover.DisableUI();
             }
             else
             {
-                TurnOffHDR();
+                toggle.interactable = true;
+                highlightOnHover.EnableUI();
             }
         }
 
-        #endif
-    }
+        public void ToggleHDR()
+        {
+            //If HDR is not switchable, do nothing
+            if( !SystemInfo.hdrDisplaySupportFlags.HasFlag(HDRDisplaySupportFlags.RuntimeSwitchable) ) return;
 
-    private void TurnOnHDR()
-    {
-        #if UNITY_EDITOR
-        UnityEditor.PlayerSettings.useHDRDisplay = true;
-        UI_HDRHelper.editorHDRJustBeingTurnedOff = false;
-        #endif
+            //Determine if HDR is on or off
+            bool hdrIsOn = UI_HDRHelper.GetCurrentHDRDisplay().active;
+            hdrIsOn = hdrIsOn?false:true;
+            toggle.isOn = hdrIsOn;
 
-        UI_HDRHelper.GetCurrentHDRDisplay().RequestHDRModeChange(true);
-    }
+            //Turn on/off HDR
+            #if UNITY_EDITOR
 
-    private void TurnOffHDR()
-    {
-        UI_HDRHelper.GetCurrentHDRDisplay().RequestHDRModeChange(false);
-        
-        #if UNITY_EDITOR
-        UnityEditor.PlayerSettings.useHDRDisplay = false;
-        UI_HDRHelper.editorHDRJustBeingTurnedOff = true;
-        #endif
+            if(UI_HDRHelper.IsHDRAvaiable() || UI_HDRHelper.editorHDRJustBeingTurnedOff)
+            {
+                if(hdrIsOn)
+                {
+                    TurnOnHDR();
+                }
+                else
+                {
+                    TurnOffHDR();
+                }
+            }
+
+            #else
+
+            if(UI_HDRHelper.IsHDRAvaiable())
+            {
+                if(hdrIsOn)
+                {
+                    TurnOnHDR();
+                }
+                else
+                {
+                    TurnOffHDR();
+                }
+            }
+
+            #endif
+        }
+
+        private void TurnOnHDR()
+        {
+            #if UNITY_EDITOR
+            UnityEditor.PlayerSettings.useHDRDisplay = true;
+            UI_HDRHelper.editorHDRJustBeingTurnedOff = false;
+            #endif
+
+            UI_HDRHelper.GetCurrentHDRDisplay().RequestHDRModeChange(true);
+        }
+
+        private void TurnOffHDR()
+        {
+            UI_HDRHelper.GetCurrentHDRDisplay().RequestHDRModeChange(false);
+            
+            #if UNITY_EDITOR
+            UnityEditor.PlayerSettings.useHDRDisplay = false;
+            UI_HDRHelper.editorHDRJustBeingTurnedOff = true;
+            #endif
+        }
     }
 }

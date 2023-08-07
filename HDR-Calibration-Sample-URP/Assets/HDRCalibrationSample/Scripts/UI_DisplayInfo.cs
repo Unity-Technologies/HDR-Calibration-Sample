@@ -5,170 +5,173 @@ using UnityEngine.UI;
 using System;
 using TMPro;
 
-public class UI_DisplayInfo : MonoBehaviour
+namespace HDRCalibrationSample
 {
-    public TextMeshProUGUI label_key;
-    public TextMeshProUGUI label_value;
-
-    private const string green = "<color=#7cf56b>";
-    private const string red = "<color=#db4b4b>";
-
-    private VerticalLayoutGroup group;
-    private HorizontalLayoutGroup group_content;
-
-    public void Start()
+    public class UI_DisplayInfo : MonoBehaviour
     {
-        this.gameObject.SetActive(false);
-        GetComponent<CanvasGroup>().alpha = 1f;
-    }
+        public TextMeshProUGUI label_key;
+        public TextMeshProUGUI label_value;
 
-    public void ShowPopup()
-    {
-        this.gameObject.SetActive(true);
-    }
+        private const string green = "<color=#7cf56b>";
+        private const string red = "<color=#db4b4b>";
 
-    public void ClosePopup()
-    {
-        this.gameObject.SetActive(false);
-    }
+        private VerticalLayoutGroup group;
+        private HorizontalLayoutGroup group_content;
 
-    public void TogglePopup() //For input control
-    {
-        if(this.gameObject.activeSelf)
+        public void Start()
         {
-            ClosePopup();
+            this.gameObject.SetActive(false);
+            GetComponent<CanvasGroup>().alpha = 1f;
         }
-        else
+
+        public void ShowPopup()
         {
-            ShowPopup();
+            this.gameObject.SetActive(true);
         }
-    }
 
-    public void Update()
-    {
-        UpdateInfo();
-    }
-
-    public void UpdateInfo()
-    {
-        HDROutputSettings[] displays = HDROutputSettings.displays;
-        if(displays.Length == 0)
+        public void ClosePopup()
         {
-            //Do nothing
+            this.gameObject.SetActive(false);
         }
-        else
+
+        public void TogglePopup() //For input control
         {
-            string key = "";
-            string value = "";
-
-            //System header
-            key = "<b>"+"System";
-            key += "</b>" + "\n";
-            value += "\n";
-
-            //Platform
-            key += "Platform" + "\n";
-            value += Application.platform.ToString() + "\n";
-
-            //Graphics API
-            key += "Graphics API" + "\n";
-            value += SystemInfo.graphicsDeviceType.ToString() + "\n";
-
-            //System - HDR Support flags
-            key += "HDR Display Support Flags" + "\n";
-            value += SystemInfo.hdrDisplaySupportFlags + "\n";
-
-            for(int i=0; i<displays.Length; i++)
+            if(this.gameObject.activeSelf)
             {
-                //New line
-                key += "\n";
-                value += "\n";
+                ClosePopup();
+            }
+            else
+            {
+                ShowPopup();
+            }
+        }
 
-                HDROutputSettings d = displays[i];
+        public void Update()
+        {
+            UpdateInfo();
+        }
 
-                //Display Header
-                key += "<b>"+"Connected Display";
-                if(HDROutputSettings.main == d)
-                {
-                    key += " (main)";
-                }
+        public void UpdateInfo()
+        {
+            HDROutputSettings[] displays = HDROutputSettings.displays;
+            if(displays.Length == 0)
+            {
+                //Do nothing
+            }
+            else
+            {
+                string key = "";
+                string value = "";
+
+                //System header
+                key = "<b>"+"System";
                 key += "</b>" + "\n";
                 value += "\n";
 
-                //Active
-                key += "HDR Output Active" + "\n";
-                value += d.active? green : red;
-                value += d.active + "</color>" + "\n";           
+                //Platform
+                key += "Platform" + "\n";
+                value += Application.platform.ToString() + "\n";
 
-                //Available
-                key += "HDR Output Available" + "\n";
-                value += d.available? green : red;
-                value += d.available + "</color>" + "\n";
+                //Graphics API
+                key += "Graphics API" + "\n";
+                value += SystemInfo.graphicsDeviceType.ToString() + "\n";
 
-                //space
-                key += "\n";
-                value += "\n";  
+                //System - HDR Support flags
+                key += "HDR Display Support Flags" + "\n";
+                value += SystemInfo.hdrDisplaySupportFlags + "\n";
 
-                if(d.available)
+                for(int i=0; i<displays.Length; i++)
                 {
-                    //Display Color Gamut
-                    key += "Display Color Gamut" + "\n";
-                    value += d.displayColorGamut + "\n";
-
-                    //PlayerSettings bit depth
-                    #if UNITY_EDITOR
-                    key += "PlayerSettings Bit Depth" + "\n";
-                    value += UnityEditor.PlayerSettings.hdrBitDepth + "\n";
-                    #endif
-
-                    //Format
-                    key += "Graphics Format" + "\n";
-                    value += d.graphicsFormat + "\n";
-
-                    //Automatic HDR Tonemapping
-                    key += "Automatic HDR Tonemapping" + "\n";
-                    value += d.automaticHDRTonemapping + "\n";
-
-                    //space
+                    //New line
                     key += "\n";
                     value += "\n";
 
-                    //paperWhiteNits
-                    key += "PaperWhiteNits" + "\n";
-                    value += d.paperWhiteNits + "\n";
+                    HDROutputSettings d = displays[i];
 
-                    //minToneMapLuminance
-                    key += "MinToneMapLuminance" + "\n";
-                    value += d.minToneMapLuminance + "\n";
+                    //Display Header
+                    key += "<b>"+"Connected Display";
+                    if(HDROutputSettings.main == d)
+                    {
+                        key += " (main)";
+                    }
+                    key += "</b>" + "\n";
+                    value += "\n";
 
-                    //maxToneMapLuminance
-                    key += "MaxToneMapLuminance" + "\n";
-                    value += d.maxToneMapLuminance + "\n";
+                    //Active
+                    key += "HDR Output Active" + "\n";
+                    value += d.active? green : red;
+                    value += d.active + "</color>" + "\n";           
 
-                    //maxFullFrameToneMapLuminance
-                    key += "MaxFullFrameToneMapLuminance" + "\n";
-                    value += d.maxFullFrameToneMapLuminance + "\n";
+                    //Available
+                    key += "HDR Output Available" + "\n";
+                    value += d.available? green : red;
+                    value += d.available + "</color>" + "\n";
+
+                    //space
+                    key += "\n";
+                    value += "\n";  
+
+                    if(d.available)
+                    {
+                        //Display Color Gamut
+                        key += "Display Color Gamut" + "\n";
+                        value += d.displayColorGamut + "\n";
+
+                        //PlayerSettings bit depth
+                        #if UNITY_EDITOR
+                        key += "PlayerSettings Bit Depth" + "\n";
+                        value += UnityEditor.PlayerSettings.hdrBitDepth + "\n";
+                        #endif
+
+                        //Format
+                        key += "Graphics Format" + "\n";
+                        value += d.graphicsFormat + "\n";
+
+                        //Automatic HDR Tonemapping
+                        key += "Automatic HDR Tonemapping" + "\n";
+                        value += d.automaticHDRTonemapping + "\n";
+
+                        //space
+                        key += "\n";
+                        value += "\n";
+
+                        //paperWhiteNits
+                        key += "PaperWhiteNits" + "\n";
+                        value += d.paperWhiteNits + "\n";
+
+                        //minToneMapLuminance
+                        key += "MinToneMapLuminance" + "\n";
+                        value += d.minToneMapLuminance + "\n";
+
+                        //maxToneMapLuminance
+                        key += "MaxToneMapLuminance" + "\n";
+                        value += d.maxToneMapLuminance + "\n";
+
+                        //maxFullFrameToneMapLuminance
+                        key += "MaxFullFrameToneMapLuminance" + "\n";
+                        value += d.maxFullFrameToneMapLuminance + "\n";
+                    }
                 }
+
+                //Apply to labels
+                label_key.text = key;
+                label_value.text = value;
             }
 
-            //Apply to labels
-            label_key.text = key;
-            label_value.text = value;
+            //Make sure popup is resized to fit content
+            if(group_content == null) group_content = GetComponentInChildren<HorizontalLayoutGroup>();
+            group_content.CalculateLayoutInputHorizontal();
+            group_content.CalculateLayoutInputVertical();
+            group_content.SetLayoutHorizontal();
+            group_content.SetLayoutVertical();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(group_content.GetComponent<RectTransform>());
+
+            if(group == null) group = GetComponent<VerticalLayoutGroup>();
+            group.CalculateLayoutInputHorizontal();
+            group.CalculateLayoutInputVertical();
+            group.SetLayoutHorizontal();
+            group.SetLayoutVertical();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(group.GetComponent<RectTransform>());
         }
-
-        //Make sure popup is resized to fit content
-        if(group_content == null) group_content = GetComponentInChildren<HorizontalLayoutGroup>();
-        group_content.CalculateLayoutInputHorizontal();
-        group_content.CalculateLayoutInputVertical();
-        group_content.SetLayoutHorizontal();
-        group_content.SetLayoutVertical();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(group_content.GetComponent<RectTransform>());
-
-        if(group == null) group = GetComponent<VerticalLayoutGroup>();
-        group.CalculateLayoutInputHorizontal();
-        group.CalculateLayoutInputVertical();
-        group.SetLayoutHorizontal();
-        group.SetLayoutVertical();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(group.GetComponent<RectTransform>());
     }
 }

@@ -4,149 +4,152 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
-public class UI_SampleImagesNavigation : MonoBehaviour
+namespace HDRCalibrationSample
 {
-    public GameObject[] sampleImages;
-    public GameObject sampleImage0_Expand;
-    public GameObject sampleImage1_Collapse;
-    public Button[] dots;
-
-    private RawImage[] rawImages;
-    private Rect[] rawImageOriginalRects;
-    private Rect rawImageDefaultRect;
-
-    private int currentImg = 0;
-    public Color dot_grey;
-
-    void Awake()
+    public class UI_SampleImagesNavigation : MonoBehaviour
     {
-        //Get RawImages
-        rawImages = new RawImage[sampleImages.Length];
-        for(int i = 0; i < sampleImages.Length; i++)
-        {
-            rawImages[i] = sampleImages[i].GetComponent<RawImage>();
-        }
+        public GameObject[] sampleImages;
+        public GameObject sampleImage0_Expand;
+        public GameObject sampleImage1_Collapse;
+        public Button[] dots;
 
-        //For sample images composition
-        rawImageOriginalRects = new Rect[sampleImages.Length];
-        for(int i = 0; i < sampleImages.Length; i++)
+        private RawImage[] rawImages;
+        private Rect[] rawImageOriginalRects;
+        private Rect rawImageDefaultRect;
+
+        private int currentImg = 0;
+        public Color dot_grey;
+
+        void Awake()
         {
-            if(i > 0)
+            //Get RawImages
+            rawImages = new RawImage[sampleImages.Length];
+            for(int i = 0; i < sampleImages.Length; i++)
             {
-                rawImageOriginalRects[i] = rawImages[i].uvRect;
+                rawImages[i] = sampleImages[i].GetComponent<RawImage>();
             }
-        }
-        rawImageDefaultRect = new Rect(0,0,1,1);
-    }
 
-    void Start()
-    {
-        //Set default image
-        UpdateSampleImage(0);
-
-        //Add listener to all dots buttons
-        for(int j = 0; j < dots.Length; j++)
-        {
-            int index = j;
-            dots[j].onClick.AddListener(() => UpdateSampleImage(index));
-        }
-    }
-
-    public void NextOrPrevImage(float direction)
-    {
-        currentImg += 1 * (int)Mathf.Sign(direction);
-
-        if(currentImg >= sampleImages.Length)
-        {
-            currentImg = 0;
-        }
-        else if(currentImg < 0)
-        {
-            currentImg = sampleImages.Length-1;
-        }
-
-        UpdateSampleImage(currentImg);
-    }
-
-    public void UpdateSampleImage(int i)
-    {
-        currentImg = i;
-        //change image
-        for(int j = 0; j < sampleImages.Length; j++)
-        {
-            if(j == currentImg)
+            //For sample images composition
+            rawImageOriginalRects = new Rect[sampleImages.Length];
+            for(int i = 0; i < sampleImages.Length; i++)
             {
-                sampleImages[j].SetActive(true);
-            } 
-            else
+                if(i > 0)
+                {
+                    rawImageOriginalRects[i] = rawImages[i].uvRect;
+                }
+            }
+            rawImageDefaultRect = new Rect(0,0,1,1);
+        }
+
+        void Start()
+        {
+            //Set default image
+            UpdateSampleImage(0);
+
+            //Add listener to all dots buttons
+            for(int j = 0; j < dots.Length; j++)
             {
-                sampleImages[j].SetActive(false);
+                int index = j;
+                dots[j].onClick.AddListener(() => UpdateSampleImage(index));
             }
         }
 
-        //Set dots color
-        for(int j = 0; j < dots.Length; j++)
+        public void NextOrPrevImage(float direction)
         {
-            var colors = dots[j].colors;
-            if(j == currentImg)
-            {
-                colors.normalColor = Color.white;
-            }
-            else
-            {
-               colors.normalColor = dot_grey;
-            }
-            dots[j].colors = colors;
-        }
-    }
+            currentImg += 1 * (int)Mathf.Sign(direction);
 
-    public void SetRawImageOriginalRect()
-    {
-        for(int j = 0; j < sampleImages.Length; j++)
+            if(currentImg >= sampleImages.Length)
+            {
+                currentImg = 0;
+            }
+            else if(currentImg < 0)
+            {
+                currentImg = sampleImages.Length-1;
+            }
+
+            UpdateSampleImage(currentImg);
+        }
+
+        public void UpdateSampleImage(int i)
         {
-            if(j==0)
+            currentImg = i;
+            //change image
+            for(int j = 0; j < sampleImages.Length; j++)
             {
-                sampleImage0_Expand.SetActive(false);
-                sampleImage1_Collapse.SetActive(true);
+                if(j == currentImg)
+                {
+                    sampleImages[j].SetActive(true);
+                } 
+                else
+                {
+                    sampleImages[j].SetActive(false);
+                }
             }
-            else
+
+            //Set dots color
+            for(int j = 0; j < dots.Length; j++)
             {
-                rawImages[j].uvRect = rawImageOriginalRects[j];
+                var colors = dots[j].colors;
+                if(j == currentImg)
+                {
+                    colors.normalColor = Color.white;
+                }
+                else
+                {
+                colors.normalColor = dot_grey;
+                }
+                dots[j].colors = colors;
             }
         }
-    }
 
-    public void SetRawImageDefaultRect()
-    {
-        for(int j = 0; j < sampleImages.Length; j++)
+        public void SetRawImageOriginalRect()
         {
-            if(j==0)
+            for(int j = 0; j < sampleImages.Length; j++)
             {
-                sampleImage0_Expand.SetActive(true);
-                sampleImage1_Collapse.SetActive(false);
-            }
-            else
-            {
-                rawImages[j].uvRect = rawImageDefaultRect;
+                if(j==0)
+                {
+                    sampleImage0_Expand.SetActive(false);
+                    sampleImage1_Collapse.SetActive(true);
+                }
+                else
+                {
+                    rawImages[j].uvRect = rawImageOriginalRects[j];
+                }
             }
         }
-    }
 
-    //For image swipe
-    private float startPos = 0f;
-    private const float swipeThreshold = 100f;
+        public void SetRawImageDefaultRect()
+        {
+            for(int j = 0; j < sampleImages.Length; j++)
+            {
+                if(j==0)
+                {
+                    sampleImage0_Expand.SetActive(true);
+                    sampleImage1_Collapse.SetActive(false);
+                }
+                else
+                {
+                    rawImages[j].uvRect = rawImageDefaultRect;
+                }
+            }
+        }
 
-    public void StartDrag()
-    {
-        startPos = Input.mousePosition.x;
-    }
+        //For image swipe
+        private float startPos = 0f;
+        private const float swipeThreshold = 100f;
 
-    public void EndDrag()
-    {
-		float delta = Input.mousePosition.x - startPos;
-		if(Mathf.Abs(delta) > swipeThreshold)
-		{
-			NextOrPrevImage(delta);
-		}
+        public void StartDrag()
+        {
+            startPos = Input.mousePosition.x;
+        }
+
+        public void EndDrag()
+        {
+            float delta = Input.mousePosition.x - startPos;
+            if(Mathf.Abs(delta) > swipeThreshold)
+            {
+                NextOrPrevImage(delta);
+            }
+        }
     }
 }
