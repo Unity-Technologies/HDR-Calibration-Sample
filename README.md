@@ -58,6 +58,7 @@ The full-screen calibration allows users to calibrate the tonemapping values wit
 
 ### Camera stacking
 The “HDRCalibrationSample" also showcases the setup for camera stacking. In order for HDR rendering to work, all cameras need to be in the same color space. Therefore, make sure **Tonemapping is only applied on the last camera** on the camera stack.
+<br>
 <img src="https://github.com/Unity-Technologies/HDR-Calibration-Sample/assets/25224986/5f0bf037-ccfc-4ff6-b7bf-46efb19643c7" width="600"><br>
 In the “HDRCalibrationSample scene, there is:
 - Main Camera
