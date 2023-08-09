@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HSVTest_RGB1
-  m_Shader: {fileID: 4800000, guid: 7f7b36213260bb54caa3ea5150cb440c, type: 3}
+  m_Name: RGBTest
+  m_Shader: {fileID: 4800000, guid: 9e0353fb8d371384c899654742f2bedc, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -22,21 +22,11 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+    m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _Count: 20
-    - _Hue: 1
-    - _MaxBrightness: 3
-    - _MaxValue: 0
-    - _MinValue: 1
-    - _Multiplier: 1
+    - _MaxValue: 10
+    - _MinValue: 0
     - _Saturation: 1
-    - _Value: 1
-    m_Colors:
-    - _Color: {r: 1, g: 0, b: 0, a: 1}
+    m_Colors: []
   m_BuildTextureStacks: []

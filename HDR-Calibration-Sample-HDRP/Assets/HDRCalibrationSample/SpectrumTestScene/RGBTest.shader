@@ -1,4 +1,4 @@
-Shader "Unlit/HSVTest_RGB"
+Shader "Unlit/RGBTest"
 {
     Properties
     {
@@ -43,20 +43,29 @@ Shader "Unlit/HSVTest_RGB"
                 return o;
             }
 
-            //https://docs.unity3d.com/Packages/com.unity.shadergraph@16.0/manual/Colorspace-Conversion-Node.html
-            //HSV > RGB
-            void Unity_ColorspaceConversion_HSV_RGB_float(float3 In, out float3 Out)
+            float Range(float x, float offset)
             {
-                float4 K = float4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
-                float3 P = abs(frac(In.xxx + K.xyz) * 6.0 - K.www);
-                Out = In.z * lerp(K.xxx, saturate(P - K.xxx), In.y);
+                float v = frac(x + offset);
+                v = 2*(v - 0.5);
+                v = abs(v);
+                v = saturate(2*(v-0.5));
+                return v;
             }
 
             float4 frag (v2f i) : SV_Target
             {
-                float4 col = 1;
                 float value = lerp(_MinValue,_MaxValue,i.uv.y);
-                Unity_ColorspaceConversion_HSV_RGB_float(float3(i.uv.x,_Saturation,value), col.rgb);
+                float4 col = 0;
+                
+                float spacing = 1.0/3.0;
+                float x = i.uv.x;
+
+                col.r = Range(x,0*spacing);
+                col.g = Range(x,1*spacing);
+                col.b = Range(x,2*spacing);
+
+                col.rgb *= value;
+                col.a = 1;
 
                 return col;
             }
