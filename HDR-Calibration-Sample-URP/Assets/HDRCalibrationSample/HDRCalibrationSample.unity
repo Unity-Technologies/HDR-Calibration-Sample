@@ -420,7 +420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d23519db6f01c4449e31e7eba5dfa71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minValue: 100
+  minValue: 50
   maxValue: 5000
   defaultValue: 600
   increment: 1
@@ -12111,7 +12111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d23519db6f01c4449e31e7eba5dfa71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minValue: 50
+  minValue: 10
   maxValue: 400
   defaultValue: 100
   increment: 1
@@ -13476,7 +13476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d23519db6f01c4449e31e7eba5dfa71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minValue: 50
+  minValue: 10
   maxValue: 400
   defaultValue: 100
   increment: 1
@@ -14293,7 +14293,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 224.785, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1488560215
@@ -18681,7 +18681,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 314.09, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!1 &1954964034
