@@ -5,7 +5,7 @@ This HDR Calibration Sample project shows how an HDR calibration menu with **Neu
 - Unity 2022.3.5f1 or above
 - Universal Render Pipeline (URP) or High Definition Render Pipeline (HDRP)
 
-<img src="https://github.com/Unity-Technologies/HDR-Calibration-Sample/assets/25224986/36df41d2-0e71-4e8f-80d4-532528a186b5" width="600">
+<img src="https://github.com/Unity-Technologies/HDR-Calibration-Sample/assets/25224986/ad1a981b-b177-4d7f-87cd-00218b48b55b" width="600">
 
 ## Getting the project
 1. Clone this repository OR click the green `<> Code` button on the top right of the [main repo page](https://github.com/Unity-Technologies/HDR-Calibration-Sample/) and then click `Download ZIP`
@@ -68,7 +68,7 @@ In the “HDRCalibrationSample scene, there is:
    - On the VolumeProfile_Tonemapping, Tonemapping must be only applied here as this VolumeProfile is being used on the last camera of the camera stack. You can apply further post-processing effects as well.
 
 ### SpectrumTestScene
-<img src="https://github.com/Unity-Technologies/HDR-Calibration-Sample/assets/25224986/b4c9ce50-39e7-4ee0-acd5-14a4cd147166" width="600"><br>
+<img src="https://github.com/Unity-Technologies/HDR-Calibration-Sample/assets/25224986/f6cd9589-8fbc-4a8c-951a-93fef4afd1b7" width="600"><br>
 Open the “SpectrumTestScene” scene and this scene is useful for testing the colors on the display.
 
 
