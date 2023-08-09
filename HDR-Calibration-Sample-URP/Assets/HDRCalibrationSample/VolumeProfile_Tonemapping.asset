@@ -40,13 +40,13 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0.233
   detectPaperWhite:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
   paperWhite:
     m_OverrideState: 1
     m_Value: 100
   detectBrightnessLimits:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
   minNits:
     m_OverrideState: 1
