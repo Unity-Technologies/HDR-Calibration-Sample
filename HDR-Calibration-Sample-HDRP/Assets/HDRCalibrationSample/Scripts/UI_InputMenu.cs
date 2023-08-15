@@ -16,6 +16,9 @@ namespace HDRCalibrationSample
         public UI_ShowHide showHide;
         public UI_ErrorPopup errorPopup;
         public UI_SampleImagesNavigation sampleImagesNavigation;
+
+        //Quit popup and button
+        public GameObject quitButton;
         public UI_QuitPopup quitPopup;
 
         //Menu items
@@ -39,13 +42,17 @@ namespace HDRCalibrationSample
 
         void Start()
         {
+            //Hide the quit button if not Desktop platforms
+            quitPopup.quitButtonActive = SystemInfo.deviceType == DeviceType.Desktop;
+            quitButton.SetActive(quitPopup.quitButtonActive);
+
             //Display Info
             actionMap_MenuPanel.FindAction("DisplayInfo").performed += DisplayInfo;
 
             //Show Hide UI
             actionMap_MenuPanel.FindAction("ShowUI").performed += ShowHideUI;
 
-            //In Editor Warning
+            //Back button
             actionMap_MenuPanel.FindAction("Back").performed += BackButton;
 
             //Sample Images Navigation

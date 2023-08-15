@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 262.18533, g: 324.8582, b: 429.96686, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -14462,7 +14462,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 224.785, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1488560215
@@ -18767,7 +18767,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 314.09, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!1 &1954964034
@@ -19136,6 +19136,7 @@ MonoBehaviour:
   showHide: {fileID: 1315712564}
   errorPopup: {fileID: 1284133624}
   sampleImagesNavigation: {fileID: 1575074895}
+  quitButton: {fileID: 540278832}
   quitPopup: {fileID: 2084422247}
   hdrToggle: {fileID: 1823992193}
   brightness_ui_settings: {fileID: 1278277973}
@@ -19642,6 +19643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 380141a5fbcf0734eb20c2ff7c121026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quitButtonActive: 0
 --- !u!225 &2084422248
 CanvasGroup:
   m_ObjectHideFlags: 0

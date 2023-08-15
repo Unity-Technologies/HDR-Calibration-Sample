@@ -6,9 +6,11 @@ namespace HDRCalibrationSample
 {
     public class UI_QuitPopup : MonoBehaviour
     {
+        [HideInInspector] public bool quitButtonActive = false;
+
         public void Quit()
         {
-            gameObject.SetActive(true);
+            if(quitButtonActive) gameObject.SetActive(true);
         }
 
         public void Cancel()
