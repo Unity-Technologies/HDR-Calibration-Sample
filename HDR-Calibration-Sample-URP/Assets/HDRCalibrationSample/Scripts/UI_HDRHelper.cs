@@ -12,10 +12,6 @@ namespace HDRCalibrationSample
         private static bool isHDRAvailablePrevious = false;
         public static bool isHDRAvailableChanged = false;
 
-        #if UNITY_EDITOR
-        public static bool editorHDRJustBeingTurnedOff = false;
-        #endif
-
         public const float alphaDisabled = 0.2f;
 
         public UI_ErrorPopup errorPopup;
@@ -74,18 +70,10 @@ namespace HDRCalibrationSample
                 isHDRAvailableChanged = true;
 
                 //Show error popup again if HDR changed to not available
-                #if UNITY_EDITOR
-                if(!IsHDRAvaiable() && !editorHDRJustBeingTurnedOff)
-                {
-                    errorPopup.gameObject.SetActive(true);
-                }
-                #else
                 if(!IsHDRAvaiable())
                 {
                     errorPopup.gameObject.SetActive(true);
                 }
-                #endif
-
             }
             else
             {
