@@ -82,23 +82,13 @@ namespace HDRCalibrationSample
             {
                 if(hdrIsOn)
                 {
-                    TurnOnHDR();
+                    UI_HDRHelper.GetCurrentHDRDisplay().RequestHDRModeChange(true);
                 }
                 else
                 {
-                    TurnOffHDR();
+                    UI_HDRHelper.GetCurrentHDRDisplay().RequestHDRModeChange(false);
                 }
             }
-        }
-
-        private void TurnOnHDR()
-        {
-            UI_HDRHelper.GetCurrentHDRDisplay().RequestHDRModeChange(true);
-        }
-
-        private void TurnOffHDR()
-        {
-            UI_HDRHelper.GetCurrentHDRDisplay().RequestHDRModeChange(false);
         }
     }
 }
