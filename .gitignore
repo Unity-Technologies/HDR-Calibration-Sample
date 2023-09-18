@@ -1,0 +1,12 @@
+*.csproj
+HDR-Calibration-Sample-URP/Library/
+HDR-Calibration-Sample-URP/Logs/
+HDR-Calibration-Sample-URP/obj/
+HDR-Calibration-Sample-URP/Temp/
+HDR-Calibration-Sample-HDRP/Library/
+HDR-Calibration-Sample-HDRP/Logs/
+HDR-Calibration-Sample-HDRP/obj/
+HDR-Calibration-Sample-HDRP/Temp/
+*.sln
+HDR-Calibration-Sample-URP/.vscode/settings.json
+HDR-Calibration-Sample-HDRP/.vscode/settings.json
