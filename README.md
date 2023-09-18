@@ -9,7 +9,7 @@ This HDR Calibration Sample project shows how an HDR calibration menu with **Neu
 
 ## Getting the project
 1. Clone this repository OR click [here](https://github.com/Unity-Technologies/HDR-Calibration-Sample/archive/refs/heads/main.zip) to download project zip
-3. Open project with Unity 2022 LTS (2022.3.5f1 or above)
+3. Open project with Unity Editor (please use the version listed in the above Requirement section)
 
 ## How to use
 1. Open “HDRCalibrationSample” scene
