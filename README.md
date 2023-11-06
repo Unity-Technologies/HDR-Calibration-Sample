@@ -2,7 +2,7 @@
 This HDR Calibration Sample project shows how an HDR calibration menu with **Neutral Tonemapping** can be implemented.
 
 **Requirement:**
-- Unity 2022.3.10f1 or above
+- Unity 2022.3.13f1 or above
 - Universal Render Pipeline (URP) or High Definition Render Pipeline (HDRP)
 
 <img src="https://github.com/Unity-Technologies/HDR-Calibration-Sample/assets/25224986/53ca705f-c496-4fe9-9b32-ce2e8d9d53f3" width="600">
@@ -70,7 +70,6 @@ In the “HDRCalibrationSample scene, there is:
 
 ### SpectrumTestScene
 <img src="https://github.com/Unity-Technologies/HDR-Calibration-Sample/assets/25224986/97ff6e35-c54b-4c31-9f9a-8432e93faf56" width="600"><br>
-
 Open the “SpectrumTestScene” scene and this scene is useful for testing the colors on the display.
 
 
